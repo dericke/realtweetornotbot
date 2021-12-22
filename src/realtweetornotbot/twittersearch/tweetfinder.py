@@ -31,7 +31,7 @@ class TweetFinder:
         """
 
         # Try a few times to make sure an empty result is not due to server side problems.
-        for _ in range(0, MAX_RETRIES):
+        for _ in range(MAX_RETRIES):
             # Get the tweets matching the criteria using a twitter scraper
             results = list(map(TweetFinder.__get_tweet_for_search_criteria, criteria_candidates))
 
@@ -40,9 +40,8 @@ class TweetFinder:
             results = list(filter(lambda result: result.tweet is not None, results))
 
             # Filter duplicates if we get some results before returning
-            if len(results) > 0:
-                unique_results = TweetFinder.__filter_duplicates(results)
-                return unique_results
+            if results:
+                return TweetFinder.__filter_duplicates(results)
 
         return []
 
@@ -101,5 +100,4 @@ class TweetFinder:
     @staticmethod
     def __score_result(tweet, search_criteria):
         """ Score the tweet by measuring how similar the OCR text is to the tweets content """
-        score = fuzz.token_sort_ratio(tweet.content, search_criteria.content)
-        return score
+        return fuzz.token_sort_ratio(tweet.content, search_criteria.content)
