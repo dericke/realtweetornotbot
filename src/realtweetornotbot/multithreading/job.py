@@ -4,7 +4,7 @@ from enum import Enum
 class Job:
 
     class JobType(Enum):
-        POST = 1,
+        POST = 1
         COMMENT = 2
 
     def __init__(self, job_type, instance):
