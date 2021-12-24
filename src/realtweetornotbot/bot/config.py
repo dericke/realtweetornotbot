@@ -1,12 +1,13 @@
 import os
 from configparser import ConfigParser, ExtendedInterpolation
+from pathlib import Path
 
 
 class Config:
     """ Holds all the configureations for a bot """
     config = ConfigParser()
     config._interpolation = ExtendedInterpolation()
-    config.read(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../../config.ini"))
+    config.read(Path(__file__).resolve().parent / "../../../config.ini")
 
     USERNAME = os.environ['REDDIT_USERNAME']
     PASSWORD = os.environ['REDDIT_PASSWORD']
