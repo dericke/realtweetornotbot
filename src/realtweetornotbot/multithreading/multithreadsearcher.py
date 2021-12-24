@@ -24,7 +24,7 @@ class MultiThreadSearcher:
     def remove_worker(self, worker):
         """ Removes a worker from the list of workers. Will not terminate that worker if it hasn't finished! """
         self.workers.remove(worker)
-        print("Removed Workers, {} workers left".format(len(self.workers)))
+        print(f"Removed Workers, {len(self.workers)} workers left")
 
     def pop_next_job(self):
         """ Pops the next post out of the post queue """

@@ -7,24 +7,22 @@ class Logger:
     @staticmethod
     def log_fetch_count(fetch_count):
         """ Logs the amount of posts that have been fetched """
-        print("<FETCHED POSTS> {} new posts. Dispatching workers!\n".format(fetch_count))
+        print(f"<FETCHED POSTS> {fetch_count} new posts. Dispatching workers!\n")
 
     @staticmethod
     def log_summon_count(fetch_count):
         """ Logs the amount of comment mentions that have been fetched """
-        print("<FETCHED SUMMONS> {} new summons. Dispatching workers!\n".format(fetch_count))
+        print(f"<FETCHED SUMMONS> {fetch_count} new summons. Dispatching workers!\n")
 
     @staticmethod
     def log_tweet_found(post_id, image_url):
         """ Logs that a tweet to a given post_id has been found """
-        print("<WORKER-{} - FOUND TWEET>\nPost: https://www.reddit.com/{}\nTweet: {}\n"
-              .format(threading.currentThread().getName(), post_id, image_url))
+        print(f"<WORKER-{threading.currentThread().getName()} - FOUND TWEET>\nPost: https://www.reddit.com/{post_id}\nTweet: {image_url}\n")
 
     @staticmethod
     def log_no_results(post_id, image_url):
         """ Logs that a worker has not found any tweet result for a given post_id """
-        print("<WORKER-{} - NO RESULTS>\nPost: https://www.reddit.com/{}\nImage: {}\n"
-              .format(threading.currentThread().getName(), post_id, image_url))
+        print(f"<WORKER-{threading.currentThread().getName()} - NO RESULTS>\nPost: https://www.reddit.com/{post_id}\nImage: {image_url}\n")
 
     @staticmethod
     def log_error():
@@ -34,12 +32,12 @@ class Logger:
     @staticmethod
     def log_error_stacktrace(error_string):
         """ Logs and error with the given stacktrace """
-        print("[EXCEPTION THROWN]\n{}\n".format(error_string))
+        print(f"[EXCEPTION THROWN]\n{error_string}\n")
 
     @staticmethod
     def log_db_deletion(delete_count):
         """ Logs the deletion of rows inside the Database """
-        print("DB >>> Deleting last {} submission IDs\n".format(delete_count))
+        print(f"DB >>> Deleting last {delete_count} submission IDs\n")
 
     @staticmethod
     def log_db_summary_deletion():
@@ -49,9 +47,9 @@ class Logger:
     @staticmethod
     def log_dispatching_threads(producer_count, consumer_count):
         """ Logs the dispatching of worker threads """
-        print("<MAIN THREAD> Starting: Producers ({}) and Consumers ({})\n".format(producer_count, consumer_count))
+        print(f"<MAIN THREAD> Starting: Producers ({producer_count}) and Consumers ({consumer_count})\n")
 
     @staticmethod
     def log_summary_time(timedelta):
         """ Logs the time difference between now and the last summary time """
-        print("<MAIN THREAD> Time Diff to last summary: {}".format(str(timedelta)))
+        print(f"<MAIN THREAD> Time Diff to last summary: {timedelta}")

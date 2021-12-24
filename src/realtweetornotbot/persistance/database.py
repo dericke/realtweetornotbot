@@ -18,8 +18,7 @@ class Database:
 
     def add_submission_to_seen(self, submission_id, tweet_link=""):
         """ Adds a submission ID with the resulting tweet link to the seen_posts table """
-        self.__cursor.execute("INSERT INTO seen_posts (post_id, found_tweet) VALUES ('{}', '{}');"
-                              .format(str(submission_id), tweet_link))
+        self.__cursor.execute(f"INSERT INTO seen_posts (post_id, found_tweet) VALUES ('{submission_id}', '{tweet_link}');")
         self.__connection.commit()
 
     def is_submission_already_seen(self, submission_id):
@@ -33,7 +32,8 @@ class Database:
         cur_entries = int(self.__cursor.fetchone()[0])
         if cur_entries + new_entries_count >= Config.DATABASE_MAX_POSTS:
             Logger.log_db_deletion(new_entries_count)
-            self.__cursor.execute("DELETE FROM seen_posts WHERE id IN (SELECT id FROM seen_posts ORDER BY id ASC LIMIT {});".format(new_entries_count))
+            self.__cursor.execute(
+                f"DELETE FROM seen_posts WHERE id IN (SELECT id FROM seen_posts ORDER BY id ASC LIMIT {new_entries_count});")
             self.__connection.commit()
 
     def delete_old_summaries_if_db_full(self):
@@ -59,5 +59,5 @@ class Database:
 
     def persist_summary(self, summary):
         """ Writes a newly made summary into the summary table """
-        self.__cursor.execute("INSERT INTO summary(posts_seen, tweets_found, last_post_id) VALUES({}, {}, (SELECT id FROM seen_posts ORDER BY id DESC LIMIT 1));".format(summary[0], summary[1]))
+        self.__cursor.execute(f"INSERT INTO summary(posts_seen, tweets_found, last_post_id) VALUES({summary[0]}, {summary[1]}, (SELECT id FROM seen_posts ORDER BY id DESC LIMIT 1));")
         self.__connection.commit()

@@ -3,6 +3,6 @@ class Tweet:
 
     def __init__(self, criteria, api_tweet):
         self.user = criteria.user
-        self.url = "https://twitter.com/r/status/{}".format(api_tweet['id'])
+        self.url = f"https://twitter.com/r/status/{api_tweet['id']}"
         self.content = api_tweet['text']
         self.id = api_tweet['id']
