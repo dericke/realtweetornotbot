@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 import praw
+
 from realtweetornotbot.bot import Config
 from realtweetornotbot.multithreading.job import Job
 from realtweetornotbot.twittersearch import tweetfinder

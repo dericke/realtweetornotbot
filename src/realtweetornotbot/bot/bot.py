@@ -5,6 +5,7 @@ from threading import Lock
 
 import praw
 from praw import exceptions
+
 from realtweetornotbot.bot import Config, DebugBot
 from realtweetornotbot.persistance.database import Database
 from realtweetornotbot.utils import Logger
