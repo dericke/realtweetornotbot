@@ -1,9 +1,10 @@
-import praw
 from datetime import datetime, timedelta
-from realtweetornotbot.twittersearch import TweetFinder
-from realtweetornotbot.utils import Logger, UrlUtils
+
+import praw
 from realtweetornotbot.bot import Config
 from realtweetornotbot.multithreading.job import Job
+from realtweetornotbot.twittersearch import tweetfinder
+from realtweetornotbot.utils import logger, urlutils
 
 
 class DebugBot:
@@ -39,7 +40,7 @@ class DebugBot:
             if self._is_valid_post(post)
         ]
 
-        Logger.log_fetch_count(len(image_posts))
+        logger.log_fetch_count(len(image_posts))
         return image_posts
 
     def __fetch_new_username_mentions(self):
@@ -51,7 +52,7 @@ class DebugBot:
             if self._is_valid_post(comment.submission)
         ]
 
-        Logger.log_summon_count(len(image_posts))
+        logger.log_summon_count(len(image_posts))
         return image_posts
 
     def find_tweet(self, job):
@@ -69,15 +70,15 @@ class DebugBot:
         url = job.get_post().url
 
         if (
-            UrlUtils.is_image_url(url)
-            or not UrlUtils.is_image_url(url)
-            and UrlUtils.is_imgur_url(url)
+            urlutils.is_image_url(url)
+            or not urlutils.is_image_url(url)
+            and urlutils.is_imgur_url(url)
         ):
-            criteria = TweetFinder.build_criteria_for_image(url)
+            criteria = tweetfinder.build_criteria_for_image(url)
         else:
             criteria = []
 
-        return TweetFinder.find_tweets(criteria)
+        return tweetfinder.find_tweets(criteria)
 
     def handle_tweet_result(self, job, search_results):
         """ Implements the actions made on new results on a job
@@ -91,9 +92,9 @@ class DebugBot:
         """
         post = job.get_post()
         if search_results:
-            Logger.log_tweet_found(post.id, search_results[0].tweet.url)
+            logger.log_tweet_found(post.id, search_results[0].tweet.url)
         else:
-            Logger.log_no_results(post.id, post.url)
+            logger.log_no_results(post.id, post.url)
 
     def _is_valid_post(self, post):
         creation_date = datetime.fromtimestamp(post.created)

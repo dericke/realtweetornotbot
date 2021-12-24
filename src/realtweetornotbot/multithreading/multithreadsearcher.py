@@ -1,5 +1,6 @@
 from copy import deepcopy
-from threading import Thread, Lock
+from threading import Lock, Thread
+
 from realtweetornotbot.bot import Config
 
 pop_lock = Lock()  # Lock for popping the top of the post_queue

@@ -1,7 +1,8 @@
-import psycopg2
 from datetime import datetime
+
+import psycopg2
 from realtweetornotbot.bot import Config
-from realtweetornotbot.utils import Logger
+from realtweetornotbot.utils import logger
 
 
 class Database:
@@ -31,7 +32,7 @@ class Database:
         self.__cursor.execute("SELECT COUNT(post_id) FROM seen_posts;")
         cur_entries = int(self.__cursor.fetchone()[0])
         if cur_entries + new_entries_count >= Config.DATABASE_MAX_POSTS:
-            Logger.log_db_deletion(new_entries_count)
+            logger.log_db_deletion(new_entries_count)
             self.__cursor.execute(
                 f"DELETE FROM seen_posts WHERE id IN (SELECT id FROM seen_posts ORDER BY id ASC LIMIT {new_entries_count});")
             self.__connection.commit()
@@ -40,7 +41,7 @@ class Database:
         self.__cursor.execute("""SELECT COUNT(id) FROM summary""")
         cur_entries = int(self.__cursor.fetchone()[0])
         if cur_entries >= Config.DATABASE_MAX_SUMMARIES:
-            Logger.log_db_summary_deletion()
+            logger.log_db_summary_deletion()
             self.__cursor.execute("""DELETE FROM summary WHERE id IN (SELECT id FROM summary ORDER BY id ASC LIMIT 1)""")
 
     def get_time_diff_since_last_summary(self):
