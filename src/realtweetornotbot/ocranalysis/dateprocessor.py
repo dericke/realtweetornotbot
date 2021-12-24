@@ -29,12 +29,12 @@ class DateProcessor:
     @staticmethod
     def __find_dates(text, date_regex, datetime_format):
         date_matches = re.findall(date_regex, text)
-        return list(
-            map(
-                lambda d: DateProcessor.__format_date(d, datetime_format),
-                date_matches,
-            )
-        )
+        return [
+            DateProcessor.__format_date(d, datetime_format)
+            for d in date_matches
+        ]
+            
+        
 
     @staticmethod
     def __format_date(date, format_string):

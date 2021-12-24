@@ -33,11 +33,14 @@ class TweetFinder:
         # Try a few times to make sure an empty result is not due to server side problems.
         for _ in range(MAX_RETRIES):
             # Get the tweets matching the criteria using a twitter scraper
-            results = list(map(TweetFinder.__get_tweet_for_search_criteria, criteria_candidates))
+            results = [
+                TweetFinder.__get_tweet_for_search_criteria(criteria) for criteria in criteria_candidates
+            ]
 
             # Filter None results
-            results = list(filter(None, results))
-            results = list(filter(lambda result: result.tweet is not None, results))
+            results = [
+                result for result in results if result and result.tweet is not None
+            ]
 
             # Filter duplicates if we get some results before returning
             if results:
@@ -84,7 +87,7 @@ class TweetFinder:
                                              reverse=True,
                                              key=lambda x: TweetFinder.__score_result(x, criteria))
 
-        if len(sorted_tweets_by_similarity) > 0:
+        if sorted_tweets_by_similarity:
 
             # The score to display will be the one of the best matching tweet (aka the first in the sorted list)
             best_matching_tweet = sorted_tweets_by_similarity[0]
