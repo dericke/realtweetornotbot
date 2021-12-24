@@ -29,7 +29,7 @@ class MultiThreadSearcher:
     def pop_next_job(self):
         """ Pops the next post out of the post queue """
         pop_lock.acquire()
-        if len(self.job_queue) > 0:
+        if self.job_queue:
             job = self.job_queue[0]
             self.job_queue.remove(job)
         else:

@@ -90,7 +90,7 @@ class DebugBot:
             results for the given post
         """
         post = job.get_post()
-        if search_results and len(search_results) > 0:
+        if search_results:
             Logger.log_tweet_found(post.id, search_results[0].tweet.url)
         else:
             Logger.log_no_results(post.id, post.url)
@@ -106,7 +106,7 @@ class DebugBot:
 
     @staticmethod
     def _form_tweet_string(results):
-        return "\n".join(list(map(lambda x: DebugBot._create_single_link_to_tweet(results.index(x), x), results)))
+        return "\n".join(DebugBot._create_single_link_to_tweet(results.index(x) for x in results))
 
     @staticmethod
     def _create_single_link_to_tweet(index, search_result):

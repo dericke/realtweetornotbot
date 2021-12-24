@@ -32,7 +32,7 @@ class Bot(DebugBot):
         super().handle_tweet_result(job, search_results)
         post = job.get_post()
 
-        if search_results and len(search_results) > 0:
+        if search_results:
             response = DebugBot._form_comment_response(search_results)
             self.__try_repeatedly_with_timeout(lambda: self.__reply_to_job(job, response))
             db.add_submission_to_seen(post.id, search_results[0].tweet.url)
@@ -78,7 +78,8 @@ class Bot(DebugBot):
     def __send_summary_to_creator(self, summary):
         posts_seen = summary[0]
         tweets_found = summary[1]
-        message = "New Summary:\n\nPosts Seen: {}\nTweets Found: {}".format(str(posts_seen), str(tweets_found))
+        message = f'New Summary:\n\nPosts Seen: {posts_seen}\nTweets Found: {tweets_found}'
+
         praw_lock.acquire()
         self._praw_client.redditor(Config.CREATOR_NAME).message("Summary", message)
         praw_lock.release()

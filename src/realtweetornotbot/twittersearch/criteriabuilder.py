@@ -20,10 +20,10 @@ class CriteriaBuilder:
     def __create_criteria_candidates(found_users, found_dates, content):
         candidates = []
 
-        if len(found_users) == 0:
+        if not found_users:
             return []
 
-        if len(found_dates) == 0:
+        if not found_dates:
             found_dates.append(None)
 
         for user in found_users:

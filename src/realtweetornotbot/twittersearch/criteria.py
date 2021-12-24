@@ -12,10 +12,10 @@ class Criteria:
         self.content = content
 
     def __repr__(self):
-        return "Criteria(\nUser: {}\nDate: {}\nContent: {}\n)".format(self.user, self.format_from_date(), self.content)
+        return f"Criteria(\nUser: {self.user}\nDate: {self.format_from_date()}\nContent: {self.content}\n)"
 
     def __str__(self):
-        return "Criteria(\nUser: {}\nDate: {}\nContent: {}\n)".format(self.user, self.format_from_date(), self.content)
+        return f"Criteria(\nUser: {self.user}\nDate: {self.format_from_date()}\nContent: {self.content}\n)"
 
     def from_date(self):
         """ Returns the begin date of the query (detected date - 1 day of padding)"""
@@ -40,4 +40,4 @@ class Criteria:
 
     def to_query(self):
         """ Returns the tweets content and user in the twitter search query format """
-        return "from:{} {}".format(self.user.replace("@", ""), self.format_content())
+        return f"from:{self.user.replace('@', '')} {self.format_content()}"
