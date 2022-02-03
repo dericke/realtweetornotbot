@@ -14,8 +14,7 @@ class ImageProcessor:
     def image_to_text(image_url):
         """ Downloads the image and reads its text. If no text could be read, it will return an empty string """
         ocr_lock.acquire()
-        image = ImageProcessor.__get_image(image_url)
-        if image:
+        if image := ImageProcessor.__get_image(image_url):
             image = ImageProcessor.__optimize(image)
             text = pytesseract.image_to_string(image, lang="eng")
             del image

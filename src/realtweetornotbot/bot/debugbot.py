@@ -28,22 +28,29 @@ class DebugBot:
         """
         posts_from_mentions = self.__fetch_new_username_mentions()
         posts_from_subs = self.__fetch_new_posts_from_featured_subs()
-        posts = list(set().union(posts_from_mentions, posts_from_subs))
-        return posts
+        return list(set().union(posts_from_mentions, posts_from_subs))
 
     def __fetch_new_posts_from_featured_subs(self):
-        image_posts = []
-        for post in self._praw_client.subreddit(Config.SUBREDDITS).rising(limit=Config.FETCH_COUNT):
-            if self._is_valid_post(post):
-                image_posts.append(Job(Job.JobType.POST, post))
+        image_posts = [
+            Job(Job.JobType.POST, post)
+            for post in self._praw_client.subreddit(Config.SUBREDDITS).rising(
+                limit=Config.FETCH_COUNT
+            )
+            if self._is_valid_post(post)
+        ]
+
         Logger.log_fetch_count(len(image_posts))
         return image_posts
 
     def __fetch_new_username_mentions(self):
-        image_posts = []
-        for comment in self._praw_client.inbox.mentions(limit=Config.SUMMON_COUNT):
-            if self._is_valid_post(comment.submission):
-                image_posts.append(Job(Job.JobType.COMMENT, comment))
+        image_posts = [
+            Job(Job.JobType.COMMENT, comment)
+            for comment in self._praw_client.inbox.mentions(
+                limit=Config.SUMMON_COUNT
+            )
+            if self._is_valid_post(comment.submission)
+        ]
+
         Logger.log_summon_count(len(image_posts))
         return image_posts
 
@@ -61,9 +68,11 @@ class DebugBot:
         """
         url = job.get_post().url
 
-        if UrlUtils.is_image_url(url):
-            criteria = TweetFinder.build_criteria_for_image(url)
-        elif UrlUtils.is_imgur_url(url):
+        if (
+            UrlUtils.is_image_url(url)
+            or not UrlUtils.is_image_url(url)
+            and UrlUtils.is_imgur_url(url)
+        ):
             criteria = TweetFinder.build_criteria_for_image(url)
         else:
             criteria = []
