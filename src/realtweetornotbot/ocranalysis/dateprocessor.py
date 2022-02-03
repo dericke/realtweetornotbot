@@ -16,7 +16,7 @@ class DateProcessor:
         """ Returns the tweet's content within the total OCR text as string"""
         dates = []
         dates.extend(DateProcessor.__find_dates(text, DateProcessor.DATE_REGEX_1, "%d %b %Y"))
-        if len(dates) == 0:
+        if not dates:
             dates.extend(DateProcessor.__find_dates(text, DateProcessor.DATE_REGEX_2, "%d %b %y"))
         dates.extend(DateProcessor.__find_dates(text, DateProcessor.DATE_REGEX_3, "%m/%d/%y"))
         dates.extend(DateProcessor.__find_dates(text, DateProcessor.DATE_REGEX_3, "%d/%m/%y"))
@@ -29,8 +29,12 @@ class DateProcessor:
     @staticmethod
     def __find_dates(text, date_regex, datetime_format):
         date_matches = re.findall(date_regex, text)
-        datetime_objects = list(map(lambda d: DateProcessor.__format_date(d, datetime_format), date_matches))
-        return datetime_objects
+        return list(
+            map(
+                lambda d: DateProcessor.__format_date(d, datetime_format),
+                date_matches,
+            )
+        )
 
     @staticmethod
     def __format_date(date, format_string):

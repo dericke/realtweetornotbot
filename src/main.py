@@ -22,11 +22,10 @@ def run_once():
 def get_bot_instance():
     if Config.RUN_MODE == "release":
         print("MODE: Release")
-        bot = Bot()
+        return Bot()
     else:
         print("MODE: Debug")
-        bot = DebugBot()
-    return bot
+        return DebugBot()
 
 
 if __name__ == "__main__":

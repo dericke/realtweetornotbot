@@ -12,8 +12,9 @@ class CriteriaBuilder:
         users_found = UserProcessor.find_users(ocr_text)
         dates_found = DateProcessor.find_dates(ocr_text)
         content_found = ContentProcessor.find_content(ocr_text)
-        candidates = CriteriaBuilder.__create_criteria_candidates(users_found, dates_found, content_found)
-        return candidates
+        return CriteriaBuilder.__create_criteria_candidates(
+            users_found, dates_found, content_found
+        )
 
     @staticmethod
     def __create_criteria_candidates(found_users, found_dates, content):
