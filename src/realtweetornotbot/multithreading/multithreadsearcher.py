@@ -18,7 +18,7 @@ class MultiThreadSearcher:
         self.__get_new_jobs()
         additional_workers_needed = min(Config.WORKER_COUNT, len(self.job_queue)) - len(self.workers)
         if additional_workers_needed > 0:
-            for i in range(0, additional_workers_needed):
+            for _ in range(additional_workers_needed):
                 self.__create_new_worker()
 
     def remove_worker(self, worker):
